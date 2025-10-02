@@ -90,9 +90,9 @@ with tab_form:
                     st.success("Decision received")
                     if probability is not None:
                         if show_prob_as == "Percent":
-                            st.metric("Approval probability", as_percent(probability))
+                            st.metric("Confident probability", as_percent(probability))
                         else:
-                            st.metric("Approval probability", f"{float(probability):.4f}")
+                            st.metric("Confident probability", f"{float(probability):.4f}")
 
                     if str(approved).strip().lower() in {"1", "approved", "true", "yes"}:
                         st.success("Loan Approved!")

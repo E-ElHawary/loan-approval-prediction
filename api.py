@@ -42,9 +42,15 @@ def read_data():
 def predict_loan_approval(payload: LoanRecord):
     """Predict loan approval from applicant data."""
     data_to_predict = pd.DataFrame(payload.model_dump(), index=[0])
-    prediction = model.predict(data_to_predict)
-    probability = float(model.predict_proba(data_to_predict).max())
-    return PredictionResponse(approved=str(prediction[0]), probability=probability)
+
+    # Prediction
+    prediction = model.predict(data_to_predict)[0]
+    proba = model.predict_proba(data_to_predict)[0]
+
+    # Match probability to predicted class
+    probability = float(proba[model.classes_.tolist().index(prediction)])
+
+    return PredictionResponse(approved=str(prediction), probability=probability)
 
 # ---------- Include Router ----------
 app.include_router(router)
